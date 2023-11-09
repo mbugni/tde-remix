@@ -4,79 +4,92 @@
 
 %include base.ks
 
-# Extra repositories
-repo --name=rpmfusion-free-el-updates --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-el-updates-released-$releasever&arch=$basearch
-repo --name=rpmfusion-nonfree-el-updates --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-el-updates-released-$releasever&arch=$basearch
-repo --name=rpmfusion-free-el-tainted --mirrorlist=https://mirrors.rpmfusion.org/mirrorlist?repo=free-el-tainted-$releasever&arch=$basearch
-
+firewall --enabled --service=mdns
 
 %packages --excludeWeakdeps
 
-# Unwanted stuff
--rsyslog
-
 # Common modules (see fedora-workstation-common.ks)
-@base-x
-@core
-@hardware-support
+# Xorg modules (see @base-x)
+xorg-x11-server-Xorg
+xorg-x11-xauth
+xorg-x11-xinit
+
+# Xorg drivers (see @base-x)
+#libva-vdpau-driver
+#libvdpau-va-gl
+mesa-dri-drivers
+#mesa-omx-drivers
+mesa-vulkan-drivers
+xorg-x11-drivers
+#xorg-x11-drv-amdgpu
+
+# Xorg utils (see @base-x)
+egl-utils
+glx-utils
+vulkan-tools
+xorg-x11-server-utils
+xorg-x11-utils
+
+# Core modules (see @core)
+dnf
+dnf-plugins-core
+fwupd
+grubby
+sudo
+# systemd-oomd-defaults
+systemd-resolved
+util-linux
+# zram-generator-defaults
+
+# Common utilities
 bash-completion
 bind-utils
 # btrfs-progs
-microcode_ctl
+less
+net-tools
 psmisc
 
-# Multimedia
-@multimedia
-libva-vdpau-driver
-# libvdpau-va-gl
-mesa-*-drivers
-xorg-x11-drivers
-
 # Fonts
-google-noto-mono-fonts
 google-noto-sans-fonts
+google-noto-sans-mono-fonts
 google-noto-serif-fonts
 google-noto-emoji-color-fonts
-liberation-mono-fonts
-liberation-s*-fonts
+
+# Hardware support
+@hardware-support
+linux-firmware
+microcode_ctl
+
+# Internet
+# firefox
+
+# Multimedia
+# PackageKit-gstreamer-plugin
+alsa-utils
+#gstreamer1-plugins-bad-free
+#gstreamer1-plugins-good
+#gstreamer1-plugins-ugly-free
+libjxl							# Library files for JPEG-XL
 
 # Networking
-@networkmanager-submodules
-
-# Software
-PackageKit
-PackageKit-gstreamer-plugin
-dnf-plugins-core
+NetworkManager-wifi
+firewalld
+# firewall-config
 
 # System
+plymouth-scripts
 plymouth-theme-spinner
 rpm-plugin-systemd-inhibit
 
 # Tools
-blivet-gui			# Storage management
+clinfo
+# gparted				# Storage management
 exfatprogs
 htop
 nano
 neofetch
 rsync
 unar
-unrar
-
-# RPM Fusion repositories
-rpmfusion-free-release
-rpmfusion-free-release-tainted
-rpmfusion-nonfree-release
-rpmfusion-nonfree-release-tainted
-
-# Appstream data
-rpmfusion-*-appstream-data
-
-# Multimedia
-gstreamer1-libav
-# gstreamer1-vaapi
-gstreamer1-plugins-bad-freeworld
-gstreamer1-plugins-ugly
-libdvdcss
 
 %end
 
@@ -126,7 +139,7 @@ cat > /etc/fonts/local.conf << EOF_FONTS
 	<alias>
 		<family>monospace</family>
 		<prefer>
-			<family>Noto Mono</family>
+			<family>Noto Sans Mono</family>
 			<family>DejaVu Sans Mono</family>
 			<family>Liberation Mono</family>
 		</prefer>
@@ -142,13 +155,13 @@ if [ -n "\$PS1" ]; then
 		if [ \${UID} -eq 0 ]; then
 			PS1='\[\e[91m\]\u@\h \[\e[93m\]\W\[\e[0m\]\\$ '
 		else
-			PS1='\[\e[92m\]\u@\h \[\e[93m\]\W\[\e[0m\]\\$ '
+			PS1='\[\e[94m\]\u@\h \[\e[93m\]\W\[\e[0m\]\\$ '
 		fi
 	else
 		if [ \${UID} -eq 0 ]; then
 			PS1='\[\e[31m\]\u@\h \[\e[33m\]\W\[\e[0m\]\\$ '
 		else
-			PS1='\[\e[32m\]\u@\h \[\e[33m\]\W\[\e[0m\]\\$ '
+			PS1='\[\e[34m\]\u@\h \[\e[33m\]\W\[\e[0m\]\\$ '
 		fi
 	fi
 fi
@@ -171,6 +184,6 @@ fi
 echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 
 # Set default boot theme
-plymouth-set-default-theme spinner
+/usr/sbin/plymouth-set-default-theme spinner
 
 %end

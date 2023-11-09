@@ -17,15 +17,17 @@ trinity-tde-i18n-Italian
 
 %end
 
-
 %post
 
 echo ""
 echo "POST TDE DESKTOP it_IT *******************************"
 echo ""
 
+# add extra livesys script
+mkdir -p /var/lib/livesys
+
 # Set italian locale
-cat >> /etc/rc.d/init.d/livesys << EOF_LIVESYS
+cat >> /var/lib/livesys/livesys-session-late-extra << EOF_LIVESYS
 
 # Force italian keyboard layout (rhb #982394)
 localectl set-locale it_IT.UTF-8

@@ -1,19 +1,15 @@
-# tde-desktop.ks
+# tde-base.ks
 #
-# Provides a basic Linux box based on TDE desktop.
+# Provides the basics for the TDE desktop.
 
-%include base-desktop.ks
-%include tde-packages.ks
+%packages --excludeWeakdeps
 
-repo --name=trinity-r14 --mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/rpm/f$releasever/trinity-r14-$basearch.list
-repo --name=trinity-r14-noarch --mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/rpm/f$releasever/trinity-r14-noarch.list
+xorg-x11-xinit-session
+setxkbmap
 
+%end
 
 %post
-
-echo ""
-echo "POST TDE DESKTOP *************************************"
-echo ""
 
 # set default GTK+ theme for root (see #683855, #689070, #808062)
 cat > /root/.gtkrc-2.0 << EOF
@@ -27,8 +23,11 @@ cat > /root/.config/gtk-3.0/settings.ini << EOF
 gtk-theme-name = Adwaita
 EOF
 
-# add initscript
-cat >> /etc/rc.d/init.d/livesys << EOF
+# set livesys session type
+sed -i 's/^livesys_session=.*/livesys_session="tde"/' /etc/sysconfig/livesys
+
+# add livesys init script
+cat >> /usr/libexec/livesys/sessions.d/livesys-tde << LIVESYS_EOF
 
 # set up autologin for user liveuser
 if [ -f /etc/trinity/tdm/tdmrc ]; then
@@ -44,14 +43,30 @@ AutoLoginUser=liveuser
 TDM_EOF
 fi
 
-# auto start TDE for liveuser
+# custom session for liveuser
 cat > /home/liveuser/.xsession << SESSION_EOF
 #!/usr/bin/sh
-export XAUTHORITY=~/.Xauthority
+# allow Anaconda installer to run using sudo
 xhost +
-exec dbus-launch --exit-with-session /opt/trinity/bin/starttde
+# start a TDE session
+exec /opt/trinity/bin/starttde
 SESSION_EOF
 chmod +x /home/liveuser/.xsession
+
+# force custom X11 session for liveuser
+cat > /home/liveuser/.dmrc << DMRC_EOF
+[Desktop]
+Session=custom
+DMRC_EOF
+
+# default settings for liveuser
+mkdir -p /home/liveuser/.trinity/share/config
+
+# disable desktop media icons
+cat > /home/liveuser/.trinity/share/config/kdesktoprc << DESKTOP_EOF
+[Media]
+enabled=false
+DESKTOP_EOF
 
 # show liveinst.desktop on desktop and in menu
 sed -i 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop
@@ -60,12 +75,6 @@ chmod +x /usr/share/applications/liveinst.desktop
 mkdir /home/liveuser/Desktop
 cp -a /usr/share/applications/liveinst.desktop /home/liveuser/Desktop/
 
-# make sure to set the right permissions and selinux contexts
-chown -R liveuser:liveuser /home/liveuser/
-restorecon -R /home/liveuser/
-
-EOF
-
-systemctl enable tdm.service
+LIVESYS_EOF
 
 %end
