@@ -19,8 +19,6 @@ trinity-repo
 trinity-tdebase
 # desktop apps
 trinity-ark
-trinity-gwenview
-trinity-gwenview-i18n
 trinity-kcalc
 trinity-kcharselect
 trinity-kicker-applets
@@ -35,7 +33,6 @@ trinity-kscd
 trinity-tdemid
 trinity-tdenetworkmanager
 trinity-tdepowersave
-trinity-tdeprint
 trinity-tdescreensaver
 # styles and themes
 # adwaita-gtk2-theme
@@ -52,11 +49,42 @@ echo ""
 echo "POST TDE DESKTOP *************************************"
 echo ""
 
-# set TDE as default X11 session
+# Set TDE as default X11 session
 cat > /etc/skel/.dmrc << DMRC_EOF
 [Desktop]
 Session=tde
 DMRC_EOF
+
+# Default sudo settings
+cat > /etc/trinity/tdesurc << TDESURC_EOF
+[super-user-command]
+super-user-command=sudo
+TDESURC_EOF
+
+# Default app settings **************************************
+mkdir -p /etc/skel/.trinity/share/apps
+
+# Konsole app settings
+mkdir -p /etc/skel/.trinity/share/apps/konsole
+
+# Default console settings
+cp /opt/trinity/share/apps/konsole/shell.desktop /etc/skel/.trinity/share/apps/konsole/shell.desktop
+cp /opt/trinity/share/apps/konsole/linux.desktop /etc/skel/.trinity/share/apps/konsole/linux.desktop
+cat >> /etc/skel/.trinity/share/apps/konsole/shell.desktop << SHELL_EOF
+Schema=Linux.schema
+Term=xterm-256color
+SHELL_EOF
+sed -s -i 's/^Schema=.*/Schema=Linux.schema/' /etc/skel/.trinity/share/apps/konsole/*.desktop
+sed -s -i 's/^Term=.*/Term=xterm-256color/' /etc/skel/.trinity/share/apps/konsole/*.desktop
+
+# Default config settings ***********************************
+mkdir -p /etc/skel/.trinity/share/config
+
+# Session settings
+cat > /etc/skel/.trinity/share/config/ksmserverrc << KSMSERVERRC_EOF
+[General]
+loginMode=default
+KSMSERVERRC_EOF
 
 systemctl enable tdm.service
 

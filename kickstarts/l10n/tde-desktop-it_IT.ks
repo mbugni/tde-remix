@@ -27,7 +27,7 @@ echo ""
 mkdir -p /var/lib/livesys
 
 # Set italian locale
-cat >> /var/lib/livesys/livesys-session-late-extra << EOF_LIVESYS
+cat >> /usr/libexec/livesys/sessions.d/livesys-tde << EOF_LIVESYS
 
 # Force italian keyboard layout (rhb #982394)
 localectl set-locale it_IT.UTF-8

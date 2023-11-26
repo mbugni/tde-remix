@@ -68,8 +68,16 @@ cat > /home/liveuser/.trinity/share/config/kdesktoprc << DESKTOP_EOF
 enabled=false
 DESKTOP_EOF
 
+# sudo settings for liveuser
+cat > /home/liveuser/.trinity/share/config/tdesurc << TDESURC_EOF
+[super-user-command]
+super-user-command=su
+TDESURC_EOF
+
 # show liveinst.desktop on desktop and in menu
-sed -i 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop
+desktop-file-edit --set-key=NoDisplay --set-value=false /usr/share/applications/liveinst.desktop
+# fix missing installer icon (see https://issues.redhat.com/browse/RHEL-13713)
+desktop-file-edit --set-icon=anaconda /usr/share/applications/liveinst.desktop
 # set executable bit disable KDE security warning
 chmod +x /usr/share/applications/liveinst.desktop
 mkdir /home/liveuser/Desktop
