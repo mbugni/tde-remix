@@ -1,6 +1,7 @@
 # base.ks
 #
 # Defines the basics for all kickstarts
+# Does not include package selection (other then mandatory)
 # Does not include localization packages or configuration
 #
 # Does includes "default" language configuration (kickstarts including
@@ -52,7 +53,9 @@ syslinux-extlinux
 dracut-live
 
 # anaconda needs the locales available to run for different locales
-glibc-all-langpacks
+# but the live image includes only desired ones to save space
+glibc-langpack-en
+langpacks-en
 
 # provide the livesys scripts
 livesys-scripts
@@ -101,7 +104,7 @@ rm -f /boot/*-rescue*
 
 # Disable network service here, as doing it in the services line
 # fails due to RHBZ #1369794
-/sbin/chkconfig network off
+systemctl disable network
 
 # Remove machine-id on pre generated images
 rm -f /etc/machine-id

@@ -24,4 +24,7 @@ echo ""
 # Enable CRB (previously named PowerTools) repo
 dnf config-manager --set-enabled crb
 
+# Fix missing installer icon (see https://issues.redhat.com/browse/RHEL-13713)
+desktop-file-edit --set-icon=anaconda /usr/share/applications/liveinst.desktop
+
 %end

@@ -4,27 +4,27 @@
 
 %include base-desktop.ks
 %include base-extras.ks
+%include base-flatpak.ks
 %include tde-base.ks
-
-repo --name=trinity-r14 --mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/rpm/el$releasever/trinity-r14-$basearch.list
-repo --name=trinity-r14-noarch --mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/rpm/el$releasever/trinity-r14-noarch.list
 
 %packages --excludeWeakdeps
 
-# TDE repository
-trinity-repo
+# Flatpak
+xdg-desktop-portal
 
 # TDE desktop
 # base apps
 trinity-tdebase
 # desktop apps
 trinity-ark
+trinity-arts-config-pulseaudio
 trinity-kcalc
 trinity-kcharselect
 trinity-kicker-applets
 trinity-kmilo
 trinity-ksnapshot
 trinity-kuser
+trinity-mplayerthumbs
 trinity-tdesudo
 # device control
 trinity-kmix
@@ -35,7 +35,6 @@ trinity-tdenetworkmanager
 trinity-tdepowersave
 trinity-tdescreensaver
 # styles and themes
-# adwaita-gtk2-theme
 trinity-gtk-qt-engine
 trinity-gtk3-tqt-engine
 trinity-tdeartwork-style
@@ -61,23 +60,7 @@ cat > /etc/trinity/tdesurc << TDESURC_EOF
 super-user-command=sudo
 TDESURC_EOF
 
-# Default app settings **************************************
-mkdir -p /etc/skel/.trinity/share/apps
-
-# Konsole app settings
-mkdir -p /etc/skel/.trinity/share/apps/konsole
-
-# Default console settings
-cp /opt/trinity/share/apps/konsole/shell.desktop /etc/skel/.trinity/share/apps/konsole/shell.desktop
-cp /opt/trinity/share/apps/konsole/linux.desktop /etc/skel/.trinity/share/apps/konsole/linux.desktop
-cat >> /etc/skel/.trinity/share/apps/konsole/shell.desktop << SHELL_EOF
-Schema=Linux.schema
-Term=xterm-256color
-SHELL_EOF
-sed -s -i 's/^Schema=.*/Schema=Linux.schema/' /etc/skel/.trinity/share/apps/konsole/*.desktop
-sed -s -i 's/^Term=.*/Term=xterm-256color/' /etc/skel/.trinity/share/apps/konsole/*.desktop
-
-# Default config settings ***********************************
+# Default config settings
 mkdir -p /etc/skel/.trinity/share/config
 
 # Session settings
@@ -86,6 +69,23 @@ cat > /etc/skel/.trinity/share/config/ksmserverrc << KSMSERVERRC_EOF
 loginMode=default
 KSMSERVERRC_EOF
 
+# Enable pipewire/pulseaudio service
+mkdir -p /etc/skel/.trinity/Autostart
+cat > /etc/skel/.trinity/Autostart/pipewire-pulse.desktop << PIPEWIRE_EOF
+[Desktop Entry]
+Version=1.0
+Name=PipeWire Pulse
+Comment=Enable the PipeWire Pulse Service
+Exec=/usr/bin/systemctl --user enable --now pipewire-pulse.service
+StartupNotify=false
+NoDisplay=true
+Terminal=false
+Type=Application
+X-GNOME-Autostart-Phase=Initialization
+X-KDE-autostart-phase=1
+PIPEWIRE_EOF
+
+# Enable TDM login manager
 systemctl enable tdm.service
 
 %end

@@ -2,5 +2,5 @@
 #
 # Provides a basic TDE desktop with italian localization support.
 
-%include ../tde-desktop.ks
+%include ../tde-workstation.ks
 %include tde-base-it_IT.ks
