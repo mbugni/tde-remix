@@ -2,8 +2,15 @@
 #
 # Provides the basics for the TDE desktop.
 
+repo --name=trinity-r14 --mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/rpm/el$releasever/trinity-r14-$basearch.list
+repo --name=trinity-r14-noarch --mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/rpm/el$releasever/trinity-r14-noarch.list
+
 %packages --excludeWeakdeps
 
+# TDE repository
+trinity-repo
+
+# Xorg modules
 xorg-x11-xinit-session
 setxkbmap
 
@@ -76,8 +83,6 @@ TDESURC_EOF
 
 # show liveinst.desktop on desktop and in menu
 desktop-file-edit --set-key=NoDisplay --set-value=false /usr/share/applications/liveinst.desktop
-# fix missing installer icon (see https://issues.redhat.com/browse/RHEL-13713)
-desktop-file-edit --set-icon=anaconda /usr/share/applications/liveinst.desktop
 # set executable bit disable KDE security warning
 chmod +x /usr/share/applications/liveinst.desktop
 mkdir /home/liveuser/Desktop

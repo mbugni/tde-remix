@@ -1,3 +1,7 @@
+## CentOS 9 - 2024-01-07
+### Changed
+- Minimize apps in favour of Flatpak
+
 ## CentOS 9 - 2023-11-09
 ### Changed
 - Adopt CentOS Stream 9.
