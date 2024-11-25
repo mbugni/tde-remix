@@ -1,11 +1,11 @@
-# TDE Remix
+# tde-remix
 
 ## Purpose
-This project is a TDE ([Trinity Desktop Environment][01]) remix and aims to offer a live and installable system based on Debian (like a [Debian Live][01]). You can [download a live image][02] and try the software, and then install it in your PC if you want.
+This project is a TDE ([Trinity Desktop Environment][08]) remix and aims to offer a live and installable system based on Debian (like a [Debian Live][01]). You can [download a live image][02] and try the software, and then install it in your PC if you want.
 You can also customize the image starting from available scripts.
 
 Main goals of this remix are:
-* lightweight desktop enviroment
+* lightweight enviroment suitable also for old PC
 * adding common extra-repos
 * supporting printers and scanners
 
@@ -34,7 +34,7 @@ Create the container for the build enviroment:
 $ sudo podman build --file=/<source-path>/Containerfile --tag=tdebuild:amd64
 ```
 
-Initialize the container by running an interactive shell:
+Pack the build enviroment into a Podman container:
 
 ```shell
 $ sudo podman run --privileged --network=host -it \
@@ -58,14 +58,14 @@ First, start the build container if not running:
 $ sudo podman start tdebuild-amd64
 ```
 
-Choose a variant (eg: KDE workstation with italian support) that corresponds to a profile (eg: `Workstation-l10n`).
+Choose a variant (eg: workstation with localization support) that corresponds to a profile (eg: `Workstation-l10n`).
 
 Available profiles/variants are:
 * `Minimal` (console only, mainly for testing)
 * `Desktop` (minimal TDE environment with basic tools)
 * `Workstation` (TDE environment with more features like printing and scanning support)
 
-For each variant you can append `-l10n` to get italian localization (eg: `Desktop-l10n`).
+For each variant you can append `-l10n` to get localization (eg: `Desktop-l10n`).
 
 Build the .iso image by running the `kiwi-ng` command:
 
@@ -75,9 +75,9 @@ $ sudo podman exec tdebuild-amd64 kiwi-ng --profile=Workstation-l10n --type=iso 
 --description=/live/source/kiwi-descriptions --target-dir=/live/target
 ```
 
-The build can take a while (30 minutes or more), it depends on your machine performances.
+The build can take a while (20 minutes or more), it depends on your machine performances.
 
-Remove unused resources when don't need anymore:
+Remove unused containers when finished:
 
 ```shell
 $ sudo podman container rm --force tdebuild-amd64
@@ -105,10 +105,10 @@ $ source /usr/local/libexec/remix/livesys-cleanup
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani
-Questo è un remix di Debian (analogo ad un [Debian Live][01]) con il supporto in italiano per lingua e tastiera. Nell'[immagine .iso][02] che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano delle varie applicazioni (come l'ambiente grafico, i repo extra etc).
+Questo è un remix di TDE ([Trinity Desktop Environment][08]), basato su Debian (analogo a una [Debian Live][01]) con il supporto in italiano per lingua e tastiera. Nell'[immagine .iso][02] che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano del sistema (come l'ambiente grafico, i repo extra etc).
 
 Il remix ha come obiettivi principali:
-* utilizzo delle applicazioni Flatpak
+* un ambiente grafico leggero adatto anche a vecchi PC
 * aggiunta dei repository comuni
 * supporto per stampanti e scanner
 
@@ -124,3 +124,4 @@ The format is based on [Keep a Changelog][05].
 [05]: https://keepachangelog.com/
 [06]: https://docs.podman.io/
 [07]: https://www.ventoy.net/
+[08]: https://www.trinitydesktop.org/

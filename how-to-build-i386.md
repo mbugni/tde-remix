@@ -22,10 +22,7 @@ $ sudo podman run --arch=i386 --privileged --network=host -it \
 --name=tdebuild-i386 --hostname=tdebuild-i386 tdebuild:i386 /usr/bin/bash
 ```
 
-Exit from the build container. The container can be reused and upgraded multiple times.
-See [Podman docs][06] for more details.
-
-To enter again into the build container:
+Exit from the build container. To enter again into the build container:
 
 ```shell
 $ sudo podman start -ia tdebuild-i386
