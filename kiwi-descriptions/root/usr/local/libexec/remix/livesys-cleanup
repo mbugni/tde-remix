@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+#
+# livesys: cleanup scripts
+
+echo "Cleaning up live system resources"
+sudo sh -c 'systemctl disable livesys-session.service;
+apt autoremove --assume-yes --purge calamares\* dracut-live;
+rm /etc/systemd/system/livesys-session.service -f;
+rm /usr/local/libexec/livesys -rf;'

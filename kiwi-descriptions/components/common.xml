@@ -1,0 +1,62 @@
+<image>
+	<profiles>
+		<profile name="CommonCore" description="Core packages"/>
+		<profile name="Common-l10n" description="localization"/>
+	</profiles>
+	<packages type="image" profiles="CommonCore">
+		<!-- Core packages -->
+		<package name="binutils"/>
+		<package name="console-setup"/>
+		<package name="console-setup-linux"/>
+		<package name="curl"/>
+		<package name="sudo"/>
+		<!-- Hardware support -->
+		<package name="firmware-linux"/>
+		<package name="firmware-linux-nonfree"/>
+		<package name="firmware-brcm80211"/>
+		<package name="firmware-iwlwifi"/>
+		<package name="firmware-realtek"/>
+		<package name="amd64-microcode"/>
+		<package name="intel-microcode"/>
+		<package name="fwupd"/>
+		<package name="fwupd-amd64-signed" arch="x86_64"/>
+		<package name="fwupd-i386-signed" arch="i686"/>
+		<!-- Networking -->
+		<package name="network-manager"/>
+		<package name="firewalld"/>
+		<!-- The following is moved to config.sh script to avoid DNS issues during build -->
+		<!-- package name="systemd-resolved"/ -->
+		<package name="wireless-regdb"/>
+		<package name="wireless-tools"/>
+		<package name="wpasupplicant"/>
+		<!-- System -->
+		<package name="initramfs-tools"/>
+		<package name="plymouth"/>
+		<package name="software-properties-common"/>
+		<package name="systemd-zram-generator"/>
+		<!-- Tools -->
+		<package name="bash-completion"/>
+		<package name="bind9-utils"/>
+		<package name="btrfs-progs"/>
+		<package name="dmidecode"/>
+		<package name="net-tools"/>
+		<package name="psmisc"/>
+		<package name="clinfo"/>
+		<package name="exfatprogs"/>
+		<package name="htop"/>
+		<package name="nano"/>
+		<package name="neofetch"/>
+		<package name="rsync"/>
+		<package name="unar"/>
+		<package name="unrar"/>
+	</packages>
+	<preferences profiles="Common-l10n">
+		<locale>it_IT</locale>
+		<keytable>it</keytable>
+		<timezone>Europe/Rome</timezone>
+	</preferences>
+	<packages type="image" profiles="Common-l10n">
+		<package name="hunspell-it"/>
+		<package name="task-italian"/>
+	</packages>
+</image>

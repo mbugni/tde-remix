@@ -1,3 +1,11 @@
+## 12.8.0 - 2024-11-24
+### Added
+- Support for both i386 and amd64 architectures
+### Changed
+- Move to Debian base
+### Removed
+- CentOS kickstarts
+
 ## CentOS 9 - 2024-01-07
 ### Changed
 - Minimize apps in favour of Flatpak

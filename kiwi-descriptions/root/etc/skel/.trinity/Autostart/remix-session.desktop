@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Session setup
+Comment=Remix session settings
+Exec=/usr/local/libexec/remix/session-setup
+StartupNotify=false
+NoDisplay=true
+Terminal=false
+Type=Application
+X-GNOME-Autostart-Phase=Initialization
+X-KDE-autostart-phase=1

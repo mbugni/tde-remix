@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+# custom session for liveuser
+cat > /home/liveuser/.xsession << SESSION_EOF
+#!/usr/bin/sh
+# allow installer to run using sudo
+xhost +
+# start a TDE session
+exec /opt/trinity/bin/starttde
+SESSION_EOF
+chmod +x /home/liveuser/.xsession
+
+# default settings for liveuser
+mkdir -p /home/liveuser/.trinity/share/config
+
+# disable desktop media icons
+cat > /home/liveuser/.trinity/share/config/kdesktoprc << DESKTOP_EOF
+[Media]
+enabled=false
+DESKTOP_EOF
+ 
+if [ -f /etc/default/keyboard ]; then
+    source /etc/default/keyboard
+    localectl set-x11-keymap $XKBLAYOUT
+    localectl set-keymap $XKBLAYOUT
+fi
