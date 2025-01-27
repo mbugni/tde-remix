@@ -1,13 +1,13 @@
 # tde-remix
 
 ## Purpose
-This project is a TDE ([Trinity Desktop Environment][08]) remix and aims to offer a live and installable system based on Debian (like a [Debian Live][01]). You can [download a live image][02] and try the software, and then install it in your PC if you want.
+This project is a TDE ([Trinity Desktop Environment][08]) remix and aims to be a complete system for personal computing with localization support. It is based on Debian (like a [Debian Live][01]). You can [download a live image][02] and try the software, and then install it in your PC if you want.
 You can also customize the image starting from available scripts.
 
 Main goals of this remix are:
 * lightweight enviroment suitable also for old PC
 * adding common extra-repos
-* supporting printers and scanners
+* supporting external devices (like printers and scanners)
 
 ## How to build the LiveCD
 [See a detailed description][03] about how to build a live media using kiwi-ng.
@@ -34,7 +34,7 @@ Create the container for the build enviroment:
 $ sudo podman build --file=/<source-path>/Containerfile --tag=tdebuild:amd64
 ```
 
-Pack the build enviroment into a Podman container:
+Initialize the container by running an interactive shell:
 
 ```shell
 $ sudo podman run --privileged --network=host -it \
@@ -61,7 +61,7 @@ $ sudo podman start tdebuild-amd64
 Choose a variant (eg: workstation with localization support) that corresponds to a profile (eg: `Workstation-l10n`).
 
 Available profiles/variants are:
-* `Minimal` (console only, mainly for testing)
+* `Console` (command line only, mainly for testing)
 * `Desktop` (minimal TDE environment with basic tools)
 * `Workstation` (TDE environment with more features like printing and scanning support)
 
@@ -88,6 +88,7 @@ $ sudo podman image rm tdebuild:amd64
 >
 > The above is for building 64 bit images.
 > Follow the [i386 how to](./how-to-build-i386.md) if you need to build a 32 bit image.
+> See also [low resources tips](./low-resources-tips.md).
 
 ## Transferring the image to a bootable media
 You can use a tool like [Ventoy][07] to build multiboot USB devices, or simply transfer the image to a single
@@ -105,12 +106,12 @@ $ source /usr/local/libexec/remix/livesys-cleanup
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani
-Questo è un remix di TDE ([Trinity Desktop Environment][08]), basato su Debian (analogo a una [Debian Live][01]) con il supporto in italiano per lingua e tastiera. Nell'[immagine .iso][02] che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano del sistema (come l'ambiente grafico, i repo extra etc).
+Questo è un remix di TDE ([Trinity Desktop Environment][08]) per computer ad uso personale con il supporto in italiano. È basato su Debian (analogo ad una [Debian Live][01]). Nell'[immagine .iso][02] che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano del sistema (come l'ambiente grafico, i repo extra etc).
 
 Il remix ha come obiettivi principali:
 * un ambiente grafico leggero adatto anche a vecchi PC
 * aggiunta dei repository comuni
-* supporto per stampanti e scanner
+* supporto per dispositivi esterni (come stampanti e scanner)
 
 ## Change Log
 All notable changes to this project will be documented in the [`CHANGELOG.md`](CHANGELOG.md) file.

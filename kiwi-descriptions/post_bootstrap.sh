@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 set -euxo pipefail
 
 #======================================
 # Greeting...
 #--------------------------------------
-echo "Bootstrap image: [$kiwi_iname]-[$kiwi_iversion]"
+echo "Bootstrap image: $kiwi_iname-$kiwi_iversion"
 echo "Profiles: [$kiwi_profiles]"
 
 #======================================

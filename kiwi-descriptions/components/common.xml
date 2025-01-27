@@ -1,7 +1,7 @@
 <image>
 	<profiles>
 		<profile name="CommonCore" description="Core packages"/>
-		<profile name="Common-l10n" description="localization"/>
+		<profile name="Common-l10n" description="Localization"/>
 	</profiles>
 	<packages type="image" profiles="CommonCore">
 		<!-- Core packages -->
