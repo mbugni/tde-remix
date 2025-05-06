@@ -66,3 +66,22 @@ If SeaMonkey doesn't start, you could have missing dependencies:
 ```shell
 $ sudo apt install libdbus-glib-1-2
 ```
+
+## Use an alternative Window Manager
+You can follow the ["use another window manager"](https://wiki.trinitydesktop.org/Tips_And_Tricks#Use_another_window_manager_with_TDE) guide.
+
+Assume you want to use [Openbox](https://openbox.org/) instead of the default TWin.
+First, install Openbox:
+```shell
+$ sudo apt update
+
+$ sudo apt install openbox
+```
+
+To set it permanently, edit the `$HOME/.trinity/share/config/twinrc` file and add the following:
+```ini
+[ThirdPartyWM]
+WMExecutable=openbox
+# Set this to pass additional arguments
+# WMAdditionalArguments=
+```

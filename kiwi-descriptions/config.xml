@@ -8,14 +8,15 @@
 	</description>
 	<preferences>
 		<release-version>12</release-version>
-		<version>12.9.0</version>
+		<version>12.10.0</version>
 		<packagemanager>apt</packagemanager>
 		<rpm-check-signatures>false</rpm-check-signatures>
 		<locale>en_US</locale>
 		<keytable>us</keytable>
 		<timezone>UTC</timezone>
 	</preferences>
-	<include from="this://./repositories/debian-trinity.xml"/>
+	<include from="this://./repositories/debian.xml"/>
+	<include from="this://./repositories/trinity.xml"/>
 	<include from="this://./components/boot.xml"/>
 	<include from="this://./components/common.xml"/>
 	<include from="this://./components/livesystem.xml"/>

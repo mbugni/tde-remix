@@ -1,3 +1,14 @@
+## 12.10.0 - 2025-05-06
+### Added
+- Image build using Podman compose
+- Alternative Window Manager tip
+- Zip tools
+### Changed
+- Move to Debian 12.10 and TDE R14.1.4 
+### Removed
+- VPN support
+- Mail Transfer Agent (MTA)
+
 ## 12.9.0 - 2025-01-27
 ### Added
 - Extended security limits for audio group

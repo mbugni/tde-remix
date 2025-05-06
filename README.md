@@ -21,42 +21,17 @@ $ git clone https://github.com/mbugni/tde-remix.git /<source-path>
 
 Choose or create a `<target-path>` folder where to put results.
 
-### Prepare the build container
+### Prepare the build environment
 Install Podman:
 
 ```shell
 $ sudo apt --assume-yes install podman containers-storage fuse-overlayfs
 ```
 
-Create the container for the build enviroment:
+Install [podman-compose](https://github.com/containers/podman-compose/tree/main?tab=readme-ov-file#installation)
+1.3.0 or later.
 
-```shell
-$ sudo podman build --file=/<source-path>/Containerfile --tag=tdebuild:amd64
-```
-
-Initialize the container by running an interactive shell:
-
-```shell
-$ sudo podman run --privileged --network=host -it \
---volume=/<source-path>:/live/source:ro --volume=/<target-path>:/live/target \
---name=tdebuild-amd64 --hostname=tdebuild-amd64 tdebuild:amd64 /usr/bin/bash
-```
-
-Exit from the build container. The container can be reused and upgraded multiple times.
-See [Podman docs][06] for more details.
-
-To enter again into the build container:
-
-```shell
-$ sudo podman start -ia tdebuild-amd64
-```
-
-### Build the image
-First, start the build container if not running:
-
-```shell
-$ sudo podman start tdebuild-amd64
-```
+### Build the image for amd64 platform
 
 Choose a variant (eg: workstation with localization support) that corresponds to a profile (eg: `Workstation-l10n`).
 
@@ -67,28 +42,43 @@ Available profiles/variants are:
 
 For each variant you can append `-l10n` to get localization (eg: `Desktop-l10n`).
 
-Build the .iso image by running the `kiwi-ng` command:
+Build the .iso image by running the `podman-compose` command:
 
 ```shell
-$ sudo podman exec tdebuild-amd64 kiwi-ng --profile=Workstation-l10n --type=iso \
---debug --color-output --shared-cache-dir=/live/target/cache system build \
---description=/live/source/kiwi-descriptions --target-dir=/live/target
+$ sudo podman-compose run --rm --env KIWI_SOURCE_DIR=/<source-path> \
+ --env KIWI_TARGET_DIR=/<target-path> --env KIWI_PROFILE=<variant> \
+ live-build-amd64
 ```
 
 The build can take a while (20 minutes or more), it depends on your machine performances.
+Environment arguments are optional, available variables are:
 
-Remove unused containers when finished:
+| Variable        | Description              | Default value      |
+|:---------------:|:------------------------:|:------------------:|
+| KIWI_SOURCE_DIR | Project source directory | `.`                |  
+| KIWI_TARGET_DIR | Build target directory   | `.`                |
+| KIWI_PROFILE    | Image variant            | `Workstation-l10n` |
+
+Remove unused images when finished:
 
 ```shell
-$ sudo podman container rm --force tdebuild-amd64
-$ sudo podman image rm tdebuild:amd64
+$ sudo podman image prune
 ```
 
-> [!NOTE]
->
-> The above is for building 64 bit images.
-> Follow the [i386 how to](./how-to-build-i386.md) if you need to build a 32 bit image.
-> See also [low resources tips](./low-resources-tips.md).
+### Build the image for i386 platform
+
+The command is very similar to the `amd64` platform:
+
+```shell
+$ sudo podman-compose run --rm --env KIWI_SOURCE_DIR=/<source-path> \
+ --env KIWI_TARGET_DIR=/<target-path> --env KIWI_PROFILE=<variant> \
+ live-build-i386
+```
+
+The standard resulting image is not bootable, so the build process fix it and produce a new
+`TDE-Remix.i386-bios.iso` image.
+
+See also [low resources tips](./low-resources-tips.md).
 
 ## Transferring the image to a bootable media
 You can use a tool like [Ventoy][07] to build multiboot USB devices, or simply transfer the image to a single
@@ -102,7 +92,7 @@ $ sudo dd if=/<target-path>/TDE-Remix.x86_64-<version>.iso of=/dev/<stick-device
 After installation, remove live system resources to save space by running:
 
 ```shell
-$ source /usr/local/libexec/remix/livesys-cleanup
+$ /usr/local/libexec/remix/livesys-cleanup
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani

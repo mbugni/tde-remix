@@ -25,7 +25,7 @@ systemctl enable NetworkManager.service
 systemctl enable systemd-timesyncd
 
 #======================================
-# Remix livesystem
+# Setup live system
 #--------------------------------------
 echo 'Delete the root user password'
 passwd -d root
@@ -46,7 +46,7 @@ else
 fi
 
 #======================================
-# Remix localization
+# Setup localization
 #--------------------------------------
 echo "LANG=en_US.UTF-8" > /etc/default/locale
 if [[ "$kiwi_profiles" == *"l10n"* ]]; then
@@ -60,7 +60,7 @@ if [[ "$kiwi_profiles" == *"l10n"* ]]; then
 fi
 
 #======================================
-# Remix	settings and tweaks
+# Additional settings and tweaks
 #--------------------------------------
 ## Enable machine system settings
 systemctl enable machine-setup
@@ -72,7 +72,7 @@ apt --assume-yes upgrade
 apt --assume-yes install systemd-resolved libnss-resolve libnss-myhostname
 
 #======================================
-# Remix	system clean
+# System clean
 #--------------------------------------
 ## Purge old kernels (if any)
 ## See https://ostechnix.com/remove-old-unused-linux-kernels/
@@ -81,6 +81,8 @@ last_kernel=$(dpkg --list | awk '{ print $2 }' | grep -E 'linux-image-.+-.+-.+' 
 echo "Purge old kernels and keep $last_kernel"
 dpkg --list | awk '{ print $2 }' | grep -E 'linux-image-.+-.+-.+' | \
 	{ grep --invert-match $last_kernel || true; } | xargs apt --assume-yes purge
+## Do not need a Mail Transfer Agent (MTA)
+apt --assume-yes autoremove exim4-base
 ## Clean software management cache
 apt clean
 

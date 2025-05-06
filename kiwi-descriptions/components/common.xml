@@ -18,9 +18,9 @@
 		<package name="firmware-realtek"/>
 		<package name="amd64-microcode"/>
 		<package name="intel-microcode"/>
-		<package name="fwupd"/>
+		<!-- package name="fwupd"/>
 		<package name="fwupd-amd64-signed" arch="x86_64"/>
-		<package name="fwupd-i386-signed" arch="i686"/>
+		<package name="fwupd-i386-signed" arch="i686"/ -->
 		<!-- Networking -->
 		<package name="network-manager"/>
 		<package name="firewalld"/>
@@ -46,9 +46,11 @@
 		<package name="htop"/>
 		<package name="nano"/>
 		<package name="neofetch"/>
+		<package name="p7zip"/>
 		<package name="rsync"/>
 		<package name="unar"/>
 		<package name="unrar"/>
+		<package name="zip"/>
 	</packages>
 	<preferences profiles="Common-l10n">
 		<locale>it_IT</locale>
