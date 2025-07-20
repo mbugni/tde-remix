@@ -50,10 +50,10 @@ fi
 #--------------------------------------
 echo "LANG=en_US.UTF-8" > /etc/default/locale
 if [[ "$kiwi_profiles" == *"l10n"* ]]; then
-	remix_locale="${kiwi_language}.UTF-8"
-	echo "Set up locale ${remix_locale}"
+	system_locale="${kiwi_language}.UTF-8"
+	echo "Set up locale ${system_locale}"
 	# Setup system-wide locale
-	echo "LANG=${remix_locale}" > /etc/default/locale
+	echo "LANG=${system_locale}" > /etc/default/locale
 	# Setup keyboard layout
 	sed -i 's/^XKBLAYOUT=.*/XKBLAYOUT="'${kiwi_keytable}'"/' /etc/default/keyboard
 	sed -i 's/^LayoutList=.*/LayoutList='${kiwi_keytable}'/' /etc/skel/.trinity/share/config/kxkbrc
@@ -67,7 +67,7 @@ systemctl enable machine-setup
 ## Replace default prompt system wide
 sed -i -e "s/PS1='.*'/\. \/etc\/profile\.d\/color-prompt\.sh/" /etc/bash.bashrc
 ## Update system with latest software
-apt --assume-yes upgrade
+apt --assume-yes update && apt --assume-yes --fix-broken install && apt --assume-yes upgrade
 ## Install systemd-resolved here because it breaks previous scripts cause DNS resolution
 apt --assume-yes install systemd-resolved libnss-resolve libnss-myhostname
 

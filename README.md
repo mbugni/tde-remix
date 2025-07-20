@@ -32,7 +32,6 @@ Install [podman-compose](https://github.com/containers/podman-compose/tree/main?
 1.3.0 or later.
 
 ### Build the image for amd64 platform
-
 Choose a variant (eg: workstation with localization support) that corresponds to a profile (eg: `Workstation-l10n`).
 
 Available profiles/variants are:
@@ -40,24 +39,22 @@ Available profiles/variants are:
 * `Desktop` (minimal TDE environment with basic tools)
 * `Workstation` (TDE environment with more features like printing and scanning support)
 
-For each variant you can append `-l10n` to get localization (eg: `Desktop-l10n`).
+For each variant you can append `-l10n` to get italian localization (eg: `Desktop-l10n`).
 
-Build the .iso image by running the `podman-compose` command:
+Build the .iso image by running the `podman-compose` command from the project root directory:
 
 ```shell
-$ sudo podman-compose run --rm --env KIWI_SOURCE_DIR=/<source-path> \
- --env KIWI_TARGET_DIR=/<target-path> --env KIWI_PROFILE=<variant> \
- live-build-amd64
+$ sudo podman-compose run --rm --env KIWI_PROFILE=<variant> \
+--env KIWI_TARGET_DIR=<target-path> system-build-amd64
 ```
 
-The build can take a while (20 minutes or more), it depends on your machine performances.
+The build can take a while (30 minutes or more), it depends on your machine performances.
 Environment arguments are optional, available variables are:
 
-| Variable        | Description              | Default value      |
-|:---------------:|:------------------------:|:------------------:|
-| KIWI_SOURCE_DIR | Project source directory | `.`                |  
-| KIWI_TARGET_DIR | Build target directory   | `.`                |
-| KIWI_PROFILE    | Image variant            | `Workstation-l10n` |
+| Variable        | Description             | Default value      |
+|:---------------:|:-----------------------:|:------------------:|
+| KIWI_PROFILE    | Image variant           | `Workstation-l10n` |
+| KIWI_TARGET_DIR | Build target directory  | `.`                |
 
 Remove unused images when finished:
 
@@ -70,9 +67,8 @@ $ sudo podman image prune
 The command is very similar to the `amd64` platform:
 
 ```shell
-$ sudo podman-compose run --rm --env KIWI_SOURCE_DIR=/<source-path> \
- --env KIWI_TARGET_DIR=/<target-path> --env KIWI_PROFILE=<variant> \
- live-build-i386
+$ sudo podman-compose run --rm --env KIWI_PROFILE=<variant> \
+--env KIWI_TARGET_DIR=<target-path> system-build-i386
 ```
 
 The standard resulting image is not bootable, so the build process fix it and produce a new
@@ -86,13 +82,6 @@ USB stick using the `dd` command:
 
 ```shell
 $ sudo dd if=/<target-path>/TDE-Remix.x86_64-<version>.iso of=/dev/<stick-device>
-```
-
-## Post-install tasks
-After installation, remove live system resources to save space by running:
-
-```shell
-$ /usr/local/libexec/remix/livesys-cleanup
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani

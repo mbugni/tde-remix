@@ -1,3 +1,9 @@
+## 12.11.0 - 2025-07-20
+### Changed
+- Move to Debian 12.11
+- Move clean up scripts to Calamares post-install
+- Set verbose log for Calamares
+
 ## 12.10.0 - 2025-05-06
 ### Added
 - Image build using Podman compose

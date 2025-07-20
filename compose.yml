@@ -3,14 +3,14 @@ name: "tde-remix"
 version: "3"
 services:
 
-  live-build-amd64:
+  system-build-amd64:
     image: "tdebuild:amd64"
     platform: linux/amd64
     privileged: true
     build:
       context: .
-    container_name: "tdebuild-amd64"
-    hostname: "tdebuild-amd64"
+      args:
+        DEBIAN_VERSION: "12.11"
     volumes:
       - "${KIWI_SOURCE_DIR:-.}:/live/source:ro"
       - "${KIWI_TARGET_DIR:-.}:/live/target"
@@ -21,16 +21,15 @@ services:
         --description=/live/source/kiwi-descriptions --target-dir=/live/target
     restart: "no"
 
-  live-build-i386:
+  system-build-i386:
     image: "tdebuild:i386"
     platform: linux/i386
     privileged: true
     build:
       context: .
       args:
+        DEBIAN_VERSION: "12.11"
         IMAGE_REGISTRY: "docker.io/i386"
-    container_name: "tdebuild-i386"
-    hostname: "tdebuild-i386"
     volumes:
       - "${KIWI_SOURCE_DIR:-.}:/live/source:ro"
       - "${KIWI_TARGET_DIR:-.}:/live/target"
