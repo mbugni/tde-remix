@@ -1,3 +1,7 @@
+## 12.12.0 - 2025-11-15
+### Changed
+- Move to Debian 12.12 and TDE R14.1.5 
+
 ## 12.11.0 - 2025-07-20
 ### Changed
 - Move to Debian 12.11

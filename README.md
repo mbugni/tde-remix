@@ -56,12 +56,6 @@ Environment arguments are optional, available variables are:
 | KIWI_PROFILE    | Image variant           | `Workstation-l10n` |
 | KIWI_TARGET_DIR | Build target directory  | `.`                |
 
-Remove unused images when finished:
-
-```shell
-$ sudo podman image prune
-```
-
 ### Build the image for i386 platform
 
 The command is very similar to the `amd64` platform:

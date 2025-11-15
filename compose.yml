@@ -10,9 +10,9 @@ services:
     build:
       context: .
       args:
-        DEBIAN_VERSION: "12.11"
+        DEBIAN_VERSION: "12.12"
     volumes:
-      - "${KIWI_SOURCE_DIR:-.}:/live/source:ro"
+      - ".:/live/source:ro"
       - "${KIWI_TARGET_DIR:-.}:/live/target"
     command:
       - >
@@ -28,10 +28,10 @@ services:
     build:
       context: .
       args:
-        DEBIAN_VERSION: "12.11"
+        DEBIAN_VERSION: "12.12"
         IMAGE_REGISTRY: "docker.io/i386"
     volumes:
-      - "${KIWI_SOURCE_DIR:-.}:/live/source:ro"
+      - ".:/live/source:ro"
       - "${KIWI_TARGET_DIR:-.}:/live/target"
     command:
       - >
