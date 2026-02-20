@@ -13,6 +13,7 @@ echo "Profiles: [$kiwi_profiles]"
 #--------------------------------------
 ## Setup hostname	
 echo "${kiwi_iname,,}" > /etc/hostname
+echo "127.0.0.1 ${kiwi_iname,,}" >> /etc/hosts
 ## Clear machine-id on pre generated images
 truncate -s 0 /etc/machine-id
 
@@ -33,8 +34,7 @@ echo 'Lock the root user account'
 passwd -l root
 echo 'Enable livesys session'
 systemctl enable livesys-setup.service
-# Set up default boot theme
-/usr/sbin/plymouth-set-default-theme details
+plymouth_theme="details"
 if [[ "$kiwi_profiles" == *"LiveSystemGraphical"* ]]; then
 	# Setup graphical system
 	systemctl set-default graphical.target
@@ -44,6 +44,8 @@ else
 	# Fallback to console system
 	systemctl set-default multi-user.target
 fi
+# Setup default boot theme
+/usr/sbin/plymouth-set-default-theme "${plymouth_theme}"
 
 #======================================
 # Setup localization
@@ -56,7 +58,7 @@ if [[ "$kiwi_profiles" == *"l10n"* ]]; then
 	echo "LANG=${system_locale}" > /etc/default/locale
 	# Setup keyboard layout
 	sed -i 's/^XKBLAYOUT=.*/XKBLAYOUT="'${kiwi_keytable}'"/' /etc/default/keyboard
-	sed -i 's/^LayoutList=.*/LayoutList='${kiwi_keytable}'/' /etc/skel/.trinity/share/config/kxkbrc
+	sed -i 's/^LayoutList=.*/LayoutList='${kiwi_keytable}'/' /etc/trinity/kxkbrc
 fi
 
 #======================================
@@ -64,12 +66,8 @@ fi
 #--------------------------------------
 ## Enable machine system settings
 systemctl enable machine-setup
-## Replace default prompt system wide
-sed -i -e "s/PS1='.*'/\. \/etc\/profile\.d\/color-prompt\.sh/" /etc/bash.bashrc
 ## Update system with latest software
 apt --assume-yes update && apt --assume-yes --fix-broken install && apt --assume-yes upgrade
-## Install systemd-resolved here because it breaks previous scripts cause DNS resolution
-apt --assume-yes install systemd-resolved libnss-resolve libnss-myhostname
 
 #======================================
 # System clean
@@ -82,7 +80,7 @@ echo "Purge old kernels and keep $last_kernel"
 dpkg --list | awk '{ print $2 }' | grep -E 'linux-image-.+-.+-.+' | \
 	{ grep --invert-match $last_kernel || true; } | xargs apt --assume-yes purge
 ## Do not need a Mail Transfer Agent (MTA)
-apt --assume-yes autoremove exim4-base
+apt --assume-yes autopurge exim4-base
 ## Clean software management cache
 apt clean
 

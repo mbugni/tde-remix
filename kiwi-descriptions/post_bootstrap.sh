@@ -11,16 +11,13 @@ echo "Profiles: [$kiwi_profiles]"
 #======================================
 # Generate locales
 #--------------------------------------
-localedef -i en_US -c -f UTF-8 en_US.UTF-8
 echo "C.UTF-8 UTF-8" > /etc/locale.gen
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 echo "LANG=en_US.UTF-8" > /etc/default/locale
 if [[ "$kiwi_profiles" == *"l10n"* ]]; then
-	echo "Update locales..."
 	echo "it_IT.UTF-8 UTF-8" >> /etc/locale.gen
-	localedef -i it_IT -c -f UTF-8 it_IT.UTF-8
 fi
-echo "Generate locales..."
+echo "--- Generate locales ---"
 locale-gen
 locale -a
 
@@ -39,18 +36,18 @@ deb https://deb.debian.org/debian $VERSION_CODENAME-updates main non-free-firmwa
 
 deb https://security.debian.org/debian-security/ $VERSION_CODENAME-security main non-free-firmware contrib non-free
 #deb-src https://security.debian.org/debian-security/ $VERSION_CODENAME-security main non-free-firmware contrib non-free
-
-# Backports allow you to install newer versions of software made available for this release
-deb https://deb.debian.org/debian $VERSION_CODENAME-backports main non-free-firmware contrib non-free
-#deb-src https://deb.debian.org/debian $VERSION_CODENAME-backports main non-free-firmware contrib non-free
 EOF
 ## Update package database
 apt update
 ## No interaction during install
-export APT_LISTCHANGES_FRONTED=none DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
+export APT_LISTCHANGES_FRONTEND=none DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
 ## Setup base system
 tasksel install standard
-## Import Trinity GPG signing key
+## Workaroud to address missing keymap for localectl systemd-firstboot. See:
+##		https://groups.google.com/g/kiwi-images/c/5zHockGLFy8
+apt --assume-yes install --no-install-recommends console-data
+ln -s /usr/share/keymaps/i386/qwerty/it.kmap.gz /usr/share/keymaps/i386/qwerty/it.map.gz
+echo "--- Import Trinity GPG signing key ---"
 wget http://mirror.ppa.trinitydesktop.org/trinity/deb/trinity-keyring.deb && \
 dpkg --install trinity-keyring.deb && \
 ## Add Trinity APT repository

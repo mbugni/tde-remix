@@ -1,6 +1,6 @@
 ## Colored prompt
 if [ -n "$PS1" ]; then
-	if [[ "$TERM" == *256color ]]; then
+	if [[ "$TERM" == *256color || "$TERM" == xterm ]]; then
 		if [ $(id -u) -eq 0 ]; then
 			PS1='\[\e]0;\u@\h:\W\a\]\[\e[91m\]\u@\h \[\e[93m\]\W\[\e[0m\]\$ '
 		else

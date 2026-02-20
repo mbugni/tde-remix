@@ -32,6 +32,7 @@
 		<package name="fonts-noto-color-emoji"/>
 		<!-- Multimedia -->
 		<package name="alsa-utils"/>
+		<package name="alsa-ucm-conf"/> <!-- ALSA Use Case Manager -->
 		<package name="ffmpeg"/>
 		<package name="gstreamer1.0-packagekit"/>
 		<package name="gstreamer1.0-plugins-bad"/>
@@ -43,8 +44,13 @@
 		<package name="media-player-info"/>
 		<package name="pipewire-audio"/>
 		<package name="pipewire-jack"/>
+		<package name="pulseaudio-utils"/>
 		<!-- Networking -->
-		<!-- package name="firewall-config"/ -->
+		<package name="gufw"/> <!-- Firewall management -->
+		<!-- System -->
+		<package name="lm-sensors"/>
+		<package name="udisks2"/>
+		<package name="upower"/>
 		<!-- Desktop -->
 		<package name="desktop-file-utils"/>
 		<package name="laptop-detect"/>
@@ -52,7 +58,6 @@
 		<package name="xdg-utils"/>
 		<package name="task-desktop"/>
 		<package name="task-laptop"/>
-		<package name="udisks2"/>
 		<!-- Trinity Desktop Environment -->
 		<!-- desktop base -->
 		<package name="desktop-base-trinity"/>
@@ -67,11 +72,12 @@
 		<package name="ksnapshot-trinity"/>
 		<package name="kuser-trinity"/>
 		<package name="mplayerthumbs-trinity"/>
-		<package name="synaptic"/>
 		<package name="synaptic-trinity"/>
 		<package name="tdesudo-trinity"/>
 		<package name="xdg-desktop-portal-trinity"/>
 		<!-- device control -->
+		<package name="filelight-trinity"/>
+		<package name="kdf-trinity"/>
 		<package name="kmix-trinity"/>
 		<package name="krec-trinity"/>
 		<package name="kscd-trinity"/>

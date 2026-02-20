@@ -10,7 +10,7 @@ services:
     build:
       context: .
       args:
-        DEBIAN_VERSION: "12.12"
+        DEBIAN_VERSION: "12.13"
     volumes:
       - ".:/live/source:ro"
       - "${KIWI_TARGET_DIR:-.}:/live/target"
@@ -28,7 +28,7 @@ services:
     build:
       context: .
       args:
-        DEBIAN_VERSION: "12.12"
+        DEBIAN_VERSION: "12.13"
         IMAGE_REGISTRY: "docker.io/i386"
     volumes:
       - ".:/live/source:ro"
@@ -39,7 +39,7 @@ services:
         --color-output --shared-cache-dir=/live/target/cache system build
         --description=/live/source/kiwi-descriptions --target-dir=/live/target
         &&
-        echo "Fixing iso image to boot legacy BIOS..."
+        echo "--- Fixing iso image to boot legacy BIOS ---"
         &&
         xorriso -indev $$(ls /live/target/TDE-Remix.ix86-*.iso)
         -outdev /live/target/TDE-Remix.i386-bios.iso -publisher TDE_Remix

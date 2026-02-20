@@ -1,3 +1,16 @@
+## 12.13.0 - 2026-02-20
+### Added
+- OpenSymbol fonts mapping to Noto Sans Symbols
+- Trinity disk utilities
+- dosfstools and zstd tools
+### Changed
+- avahi-daemon instead of systemd-resolved
+- ufw instead of firewalld
+- Firmware dependencies reviewed
+- Printing dependencies reviewed
+### Removed
+- Backports repository
+
 ## 12.12.0 - 2025-11-15
 ### Changed
 - Move to Debian 12.12 and TDE R14.1.5 

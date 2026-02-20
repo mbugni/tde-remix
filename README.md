@@ -5,11 +5,11 @@ This project is a TDE ([Trinity Desktop Environment][08]) remix and aims to be a
 You can also customize the image starting from available scripts.
 
 Main goals of this remix are:
-* lightweight enviroment suitable also for old PC
+* lightweight enviroment suitable for old PC (legacy BIOS and/or 32-bit)
 * adding common extra-repos
 * supporting external devices (like printers and scanners)
 
-## How to build the LiveCD
+## How to build the LiveCD (on Debian 12)
 [See a detailed description][03] about how to build a live media using kiwi-ng.
 
 ### Prepare the working directories
